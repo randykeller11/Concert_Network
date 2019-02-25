@@ -15,7 +15,8 @@ var express     = require("express"),
 var commentRoutes    = require("./routes/comments"),
     concertRoutes = require("./routes/concerts"),
     indexRoutes      = require("./routes/index")
-    
+
+//database and app config
 mongoose.connect("mongodb+srv://randykeller11:1stocksaretight@cluster0-bhhfc.mongodb.net/concerts?retryWrites=true", { useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -36,6 +37,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+//global variables for every page
 app.use(function(req, res, next){
    res.locals.currentUser = req.user;
    res.locals.error = req.flash("error");
@@ -43,6 +45,7 @@ app.use(function(req, res, next){
    next();
 });
 
+//route setup
 app.use("/", indexRoutes);
 app.use("/concerts", concertRoutes);
 app.use("/concerts/:id/comments", commentRoutes);
